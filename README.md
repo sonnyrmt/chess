@@ -1,4 +1,5 @@
 # Chess
+## Uncompleted
 
 Just a quick personal chess project.
 
