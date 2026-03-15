@@ -30,7 +30,10 @@ export function parseCoordinate(coordinate: string) {
   return { col, row };
 }
 
-export const getPieceInitialPositions = (playerColor: "w" | "b", gameId: number = 0) => {
+export const getPieceInitialPositions = (
+  playerColor: "w" | "b",
+  gameId: number = 0,
+) => {
   const swap = (piece: string) =>
     piece.includes("w_")
       ? piece.replace("w_", "b_")
@@ -41,8 +44,11 @@ export const getPieceInitialPositions = (playerColor: "w" | "b", gameId: number 
   return Object.fromEntries(
     Object.entries(initialPositions).map(([pos, piece]) => {
       if (!piece) return [pos, ""];
-      let newPiece = playerColor === "b" ? swap(piece as string) : piece;
-      return [pos, { type: newPiece, id: `${newPiece}-${pos}-${gameId}`, hasMoved: false }];
+      let newPiece = playerColor === "w" ? swap(piece as string) : piece;
+      return [
+        pos,
+        { type: newPiece, id: `${newPiece}-${pos}-${gameId}`, hasMoved: false },
+      ];
     }),
   );
 };

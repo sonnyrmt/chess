@@ -7,7 +7,7 @@ import { useChessGame } from "./hooks/useChessGame";
 import Square from "./Square";
 
 export default function Board() {
-  const [playerPieceColor] = useState<"w" | "b">("b");
+  const [playerPieceColor] = useState<"w" | "b">("w");
   const game = useChessGame(playerPieceColor);
 
   const colLabels = ["A", "B", "C", "D", "E", "F", "G", "H"];
@@ -18,25 +18,33 @@ export default function Board() {
       <div className="relative p-8 bg-slate-800 shadow-2xl border-4 border-slate-700">
         <div className="absolute top-0 left-8 right-8 h-8 flex items-center justify-around text-slate-300 font-bold">
           {colLabels.map((l) => (
-            <span key={`top-${l}`} className="w-20 text-center">{l}</span>
+            <span key={`top-${l}`} className="w-20 text-center">
+              {l}
+            </span>
           ))}
         </div>
 
         <div className="absolute bottom-0 left-8 right-8 h-8 flex items-center justify-around text-slate-300 font-bold">
           {colLabels.map((l) => (
-            <span key={`bottom-${l}`} className="w-20 text-center">{l}</span>
+            <span key={`bottom-${l}`} className="w-20 text-center">
+              {l}
+            </span>
           ))}
         </div>
 
         <div className="absolute left-0 top-8 bottom-8 w-8 flex flex-col items-center justify-around text-slate-300 font-bold">
           {displayRows.map((r) => (
-            <span key={`left-${r}`} className="h-20 flex items-center">{r}</span>
+            <span key={`left-${r}`} className="h-20 flex items-center">
+              {r}
+            </span>
           ))}
         </div>
 
         <div className="absolute right-0 top-8 bottom-8 w-8 flex flex-col items-center justify-around text-slate-300 font-bold">
           {displayRows.map((r) => (
-            <span key={`right-${r}`} className="h-20 flex items-center">{r}</span>
+            <span key={`right-${r}`} className="h-20 flex items-center">
+              {r}
+            </span>
           ))}
         </div>
 
