@@ -16,6 +16,7 @@ export default function Piece({
   setPossibleMoves,
   handleMove,
   possibleMoves,
+  aiEnabled,
 }: {
   active: Square | null;
   setActive: Dispatch<SetStateAction<Square | null>>;
@@ -28,6 +29,7 @@ export default function Piece({
   setPossibleMoves: Dispatch<SetStateAction<Square[]>>;
   handleMove: (to: Square) => void;
   possibleMoves: Square[];
+  aiEnabled: boolean;
 }) {
   const handlePieceClick = () => {
     if (active && active === coordinate) {
@@ -48,7 +50,7 @@ export default function Piece({
         ? clickedPieceData
         : clickedPieceData.type;
 
-    if (!clickedPieceType.startsWith(playerPieceColor)) {
+    if (aiEnabled && !clickedPieceType.startsWith(playerPieceColor)) {
       setPossibleMoves([]);
       return;
     }

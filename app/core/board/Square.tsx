@@ -21,6 +21,7 @@ interface SquareProps {
   handleMove: (to: SquareShift) => void;
   possibleMoves: SquareShift[];
   isCheck: boolean;
+  aiEnabled: boolean;
 }
 
 export default function Square({
@@ -40,6 +41,7 @@ export default function Square({
   handleMove,
   possibleMoves,
   isCheck,
+  aiEnabled,
 }: SquareProps) {
   const background = getBackgroundColor(row, col, isActive);
   const hasPiece = !!pieces[coordinate];
@@ -70,6 +72,7 @@ export default function Square({
               setPossibleMoves={setPossibleMoves}
               handleMove={handleMove}
               possibleMoves={possibleMoves}
+              aiEnabled={aiEnabled}
             />
           )}
         </AnimatePresence>

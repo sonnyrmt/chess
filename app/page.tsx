@@ -8,6 +8,7 @@ const Board = dynamic(() => import("./core/board/board"), { ssr: false });
 export default function Home() {
   const [playerColor, setPlayerColor] = useState<"w" | "b">("w");
   const [engineDepth, setEngineDepth] = useState(10);
+  const [aiEnabled, setAiEnabled] = useState(true);
 
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -48,9 +49,26 @@ export default function Home() {
             </button>
           ))}
         </div>
+        <div className="mt-3 flex items-center gap-2">
+          <button
+            onClick={() => setAiEnabled((v) => !v)}
+            className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition ${
+              aiEnabled
+                ? "bg-indigo-400 text-slate-900"
+                : "bg-slate-800 text-slate-200 hover:bg-slate-700"
+            }`}
+          >
+            {aiEnabled ? "AI On" : "AI Off"}
+          </button>
+        </div>
       </div>
 
-      <Board key={playerColor} playerPieceColor={playerColor} engineDepth={engineDepth} />
+      <Board
+        key={`${playerColor}-${aiEnabled}`}
+        playerPieceColor={playerColor}
+        engineDepth={engineDepth}
+        aiEnabled={aiEnabled}
+      />
     </div>
   );
 }

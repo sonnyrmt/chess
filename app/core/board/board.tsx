@@ -9,11 +9,13 @@ import { LayoutGroup } from "framer-motion";
 export default function Board({
   playerPieceColor,
   engineDepth,
+  aiEnabled,
 }: {
   playerPieceColor: "w" | "b";
   engineDepth: number;
+  aiEnabled: boolean;
 }) {
-  const game = useChessGame(playerPieceColor, engineDepth);
+  const game = useChessGame(playerPieceColor, engineDepth, aiEnabled);
 
   const colLabels = ["A", "B", "C", "D", "E", "F", "G", "H"];
   const displayRows = [...rows].reverse();
@@ -82,11 +84,12 @@ export default function Board({
                         playerPieceColor={game.playerPieceColor}
                         setPossibleMoves={game.setPossibleMoves}
                         handleMove={game.handleMove}
-                        possibleMoves={game.possibleMoves}
-                        isCheck={game.isCheck}
-                      />
-                    );
-                  })}
+                      possibleMoves={game.possibleMoves}
+                      isCheck={game.isCheck}
+                      aiEnabled={aiEnabled}
+                    />
+                  );
+                })}
                 </div>
               );
             })}

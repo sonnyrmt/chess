@@ -11,6 +11,7 @@ import { isKingInCheck, isCheckmate } from "@/app/components/piece/rules";
 export const useChessGame = (
   playerPieceColor: "w" | "b",
   engineDepth: number = 10,
+  aiEnabled: boolean = true,
 ) => {
   const [colorTurn, setColorTurn] = useState<"w" | "b">("w");
   const init = getPieceInitialPositions(playerPieceColor);
@@ -187,6 +188,7 @@ export const useChessGame = (
 
   useEffect(() => {
     const engineColor = playerPieceColor === "w" ? "b" : "w";
+    if (!aiEnabled) return;
     if (promotionPending || isMate) return;
     if (colorTurn !== engineColor) return;
     if (!engineReadyRef.current) return;
@@ -208,7 +210,15 @@ export const useChessGame = (
     return () => {
       if (pendingTimeoutRef.current) clearTimeout(pendingTimeoutRef.current);
     };
-  }, [colorTurn, pieces, playerPieceColor, isMate, promotionPending, engineDepth]);
+  }, [
+    colorTurn,
+    pieces,
+    playerPieceColor,
+    isMate,
+    promotionPending,
+    engineDepth,
+    aiEnabled,
+  ]);
 
   return {
     colorTurn,
