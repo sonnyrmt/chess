@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
 import { cols, rows } from "./constants";
 import { getCoordinate } from "./utils";
 import { useChessGame } from "./hooks/useChessGame";
 import Square from "./Square";
+import { LayoutGroup } from "framer-motion";
 
-export default function Board() {
-  const [playerPieceColor] = useState<"w" | "b">("w");
-  const game = useChessGame(playerPieceColor);
+export default function Board({
+  playerPieceColor,
+  engineDepth,
+}: {
+  playerPieceColor: "w" | "b";
+  engineDepth: number;
+}) {
+  const game = useChessGame(playerPieceColor, engineDepth);
 
   const colLabels = ["A", "B", "C", "D", "E", "F", "G", "H"];
   const displayRows = [...rows].reverse();
@@ -48,43 +53,45 @@ export default function Board() {
           ))}
         </div>
 
-        <div className="grid grid-cols-8 overflow-hidden border-4 border-slate-900 shadow-inner">
-          {cols.map((col: number) => {
-            return (
-              <div key={`col-${col}`}>
-                {rows.map((row: number) => {
-                  const { coordinate } = getCoordinate(row, col);
-                  const isActive = game.active === coordinate;
-                  const isPossibleMove = game.possibleMoves.includes(
-                    coordinate as any,
-                  );
+        <LayoutGroup id="board">
+          <div className="grid grid-cols-8 overflow-hidden border-4 border-slate-900 shadow-inner">
+            {cols.map((col: number) => {
+              return (
+                <div key={`col-${col}`}>
+                  {rows.map((row: number) => {
+                    const { coordinate } = getCoordinate(row, col);
+                    const isActive = game.active === coordinate;
+                    const isPossibleMove = game.possibleMoves.includes(
+                      coordinate as any,
+                    );
 
-                  return (
-                    <Square
-                      key={`${coordinate}`}
-                      row={row}
-                      col={col}
-                      coordinate={coordinate as any}
-                      isActive={isActive}
-                      isPossibleMove={isPossibleMove}
-                      pieces={game.pieces}
-                      active={game.active}
-                      setActive={game.setActive}
-                      setPieces={game.setPieces}
-                      colorTurn={game.colorTurn}
-                      setColorTurn={game.setColorTurn}
-                      playerPieceColor={game.playerPieceColor}
-                      setPossibleMoves={game.setPossibleMoves}
-                      handleMove={game.handleMove}
-                      possibleMoves={game.possibleMoves}
-                      isCheck={game.isCheck}
-                    />
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
+                    return (
+                      <Square
+                        key={`${coordinate}`}
+                        row={row}
+                        col={col}
+                        coordinate={coordinate as any}
+                        isActive={isActive}
+                        isPossibleMove={isPossibleMove}
+                        pieces={game.pieces}
+                        active={game.active}
+                        setActive={game.setActive}
+                        setPieces={game.setPieces}
+                        colorTurn={game.colorTurn}
+                        setColorTurn={game.setColorTurn}
+                        playerPieceColor={game.playerPieceColor}
+                        setPossibleMoves={game.setPossibleMoves}
+                        handleMove={game.handleMove}
+                        possibleMoves={game.possibleMoves}
+                        isCheck={game.isCheck}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </LayoutGroup>
       </div>
       {game.promotionPending && (
         <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50 rounded-lg">

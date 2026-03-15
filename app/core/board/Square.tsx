@@ -51,10 +51,14 @@ export default function Square({
       onClick={() => isPossibleMove && handleMove(coordinate)}
     >
       <div className="w-full h-full flex justify-center items-center overflow-visible">
-        <AnimatePresence initial={true}>
+        <AnimatePresence initial={true} mode="popLayout" presenceAffectsLayout={false}>
           {hasPiece && (
             <Piece
-              key={coordinate}
+              key={
+                typeof pieces[coordinate] === "string"
+                  ? `${coordinate}-str`
+                  : pieces[coordinate]?.id || coordinate
+              }
               active={active}
               setActive={setActive}
               pieces={pieces}

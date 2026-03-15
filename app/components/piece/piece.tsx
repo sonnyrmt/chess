@@ -36,7 +36,6 @@ export default function Piece({
       return;
     }
 
-    setActive(coordinate);
     const clickedPieceData = pieces[coordinate];
 
     if (!clickedPieceData) {
@@ -49,11 +48,18 @@ export default function Piece({
         ? clickedPieceData
         : clickedPieceData.type;
 
+    if (!clickedPieceType.startsWith(playerPieceColor)) {
+      setPossibleMoves([]);
+      return;
+    }
+
     const isPieceTurn = clickedPieceType.startsWith(colorTurn);
     if (!isPieceTurn) {
       setPossibleMoves([]);
       return;
     }
+
+    setActive(coordinate);
 
     const moves = handlePieceMovement(
       clickedPieceData,
@@ -97,6 +103,7 @@ export default function Piece({
   return (
     <motion.button
       layoutId={pieceId || undefined}
+      layout
       className="cursor-pointer z-10 flex items-center justify-center pointer-events-auto"
       onClick={handlePieceClick}
       drag
@@ -131,12 +138,11 @@ export default function Piece({
         opacity: 1,
         scale: 1,
       }}
-      exit={{ scale: 0, opacity: 0 }}
+      exit={{ scale: 0.8, opacity: 0 }}
       transition={{
-        type: "spring",
-        stiffness: 400,
-        damping: 25,
-        mass: 0.8,
+        layout: { type: "tween", ease: "easeOut", duration: 0.28 },
+        opacity: { duration: 0.08 },
+        scale: { duration: 0.08 },
         delay: hasMoved ? 0 : delay,
       }}
       whileHover={{ scale: 1.1, zIndex: 50 }}
